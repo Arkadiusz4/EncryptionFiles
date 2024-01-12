@@ -55,9 +55,9 @@ func encryptHandle() {
 	}
 
 	password := getPassword()
-	fmt.Println("Encrypting...")
+	fmt.Println("\nEncrypting...")
 	filecrypt.Encrypt(file, password)
-	fmt.Println("File successfully protected")
+	fmt.Println("File successfully protected.")
 }
 
 func decryptHandle() {
@@ -73,7 +73,7 @@ func decryptHandle() {
 
 	fmt.Print("Enter a password: ")
 	password, _ := term.ReadPassword(0)
-	fmt.Println("Decrypting...")
+	fmt.Println("\nDecrypting...")
 	filecrypt.Decrypt(file, password)
 	fmt.Println("File successfully decrypted.")
 }
@@ -81,7 +81,7 @@ func decryptHandle() {
 func getPassword() []byte {
 	fmt.Print("Enter password: ")
 	password, _ := term.ReadPassword(0)
-	fmt.Print("\n Confirm password: ")
+	fmt.Print("\nConfirm password: ")
 	password2, _ := term.ReadPassword(0)
 
 	if !validatePassword(password, password2) {
