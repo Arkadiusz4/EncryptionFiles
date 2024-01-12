@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"golang.org/x/term"
 	"os"
 )
 
@@ -40,12 +42,49 @@ func printHelp() {
 	fmt.Println("")
 }
 
-func encryptHandle() {}
+func encryptHandle() {
+	if len(os.Args) < 3 {
+		fmt.Println("Missing the path to the file. For more info, run go run . help")
+		os.Exit(0)
+	}
+
+	file := os.Args[2]
+	if !validateFile(file) {
+		panic("File not found")
+	}
+
+	password := getPassword()
+}
 
 func decryptHandle() {
 
 }
 
-func getPassword()      {}
-func validatePassword() {}
-func validateFile()     {}
+func getPassword() []byte {
+	fmt.Print("Enter password: ")
+	password, _ := term.ReadPassword(0)
+	fmt.Print("\n Confirm password: ")
+	password2, _ := term.ReadPassword(0)
+
+	if !validatePassword(password, password2) {
+		fmt.Print("\nPasswords do not match. Please try again.\n")
+		return getPassword()
+	}
+
+	return password
+}
+
+func validatePassword(password1 []byte, password2 []byte) bool {
+	if !bytes.Equal(password1, password2) {
+		return false
+	}
+
+	return true
+}
+
+func validateFile(file string) bool {
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
